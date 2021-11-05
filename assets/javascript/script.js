@@ -1,7 +1,7 @@
 // Array filled with: Question, Answer, possible other answers, and empty one for highscores
 var prompts = [
     {
-        question: "Whats 2+2",
+        question: "<h1>Whats 2+2</h1>",
         answer: 4,
     },
     {
@@ -18,18 +18,20 @@ var trickAnswers = [
     },
 ];
 
-var buttonBox = document.querySelector(".buttonBox");
+var buttonBox = document.querySelector("#buttonBox");
 var quizQ = document.querySelector("#headerQs");
-
+var pageContentEl = document.querySelector("#page-content");
 var highScores = [];
+var testest = document.getElementById("#buttonBox");
 
 // Need a taskhandler that looks at what is clicked and gives you feedback based on what you click (right or wrong answers)
 
 // Taskhandler function
-var taskHandler = function(event) {
-    var target = event.target;
-
-    if (target.matches(".btn")) {
+var taskHandler = function (event) {
+    var testy = document.getElementById("#buttonBox").value;  
+    console.log("clicky");
+    if (testy.matches("#page-content")) {
+        boxGenerator();
         if (target.dataset.state = "answer") {
         // Add Feedback to bottom of question
         // alert to move on
@@ -41,7 +43,7 @@ var taskHandler = function(event) {
             // return false
         }
     }
-}
+};
 // event.target
 // if matches start button
 // call the code that starts the quiz
@@ -53,12 +55,13 @@ var taskHandler = function(event) {
 
 // function that injects html into the dom
 var questionHandler = function() {
+
+    console.log("click");
     for (var i = 0; i < prompts.length; i++) {
         quizQ.innerHTML = prompts[i].question;
         // function that makes our boxes
         boxGenerator(i);
         // if statement that checks if task handler returns true, if 
-        
         }
 };
 
@@ -66,21 +69,21 @@ var boxGenerator = function(i) {
     // gets prompt answer and appends it to the button box
     var answerSet = document.createElement("div");
     var trickSet = document.createElement("div");
-    console.log("frick");
+
     answerSet.setAttribute("data-state", "correct");
     trickSet.setAttribute("data-state", "incorrect");
 
     trickSet.innerHTML = ((trickAnswers[i].choice1));
-    buttonBox.appendChild(trickAnswers[i].choice1);
+    buttonBox.append(trickAnswers[i].choice1);
 
     trickSet.innerHTML = ((trickAnswers[i].choice2));
-    buttonBox.appendChild(trickAnswers[i].choice2);
+    buttonBox.append(trickAnswers[i].choice2);
 
     trickSet.innerHTML = ((trickAnswers[i].choice3));
-    buttonBox.appendChild(trickAnswers[i].choice3);
+    buttonBox.append(trickAnswers[i].choice3);
 
     answerSet.innerHTML = prompts[i].answer;
-    buttonBox.appendChild(answerSet);
+    buttonBox.append(answerSet);
     // gets trickAnswers and appends it to the button box
 };
 
@@ -105,4 +108,4 @@ var boxGenerator = function(i) {
 // Remember to clearInterval at some point
 // time-- at the end of the function
 
-document.addEventListener("click", questionHandler());
+pageContentEl.addEventListener("click", taskHandler());
