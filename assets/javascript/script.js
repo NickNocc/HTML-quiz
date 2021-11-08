@@ -1,16 +1,12 @@
 // Array filled with: Question, Answer, possible other answers, and empty one for highscores
 var prompts = [
     {
-        question: "Whats 2+2",
-        answers: {
-            1: 1,
-            2: 2,
-            3: 3,
-            4: 4,
-        },
+        question: "Whats 2+2?",
         correctAnswer: "4"
     },
 ];
+
+var answers1 = [1,2,3,4];
 
 var highScores = [];
 
@@ -21,7 +17,6 @@ var submitAnswers = document.getElementById('startQuiz');
 var startButton = document.querySelector(".btn");
 var timer = 60;
 var timerDisplay = document.getElementById('countdown');
-
 // Need a taskhandler that looks at what is clicked and gives you feedback based on what you click (right or wrong answers)
 
 
@@ -55,8 +50,28 @@ var quizStarter = function() {
             // Send to score input page
         }
         timer--;
-    }, 1000)
-}
+    }, 1000);
+    questionHandler();
+};
+
+var questionHandler = function() {
+
+        var boxBuilder = document.createElement("button");       
+        
+        boxBuilder.className = "btn";
+    for(var i = 0; i < prompts.length; i++) {
+        quizQ.innerText = prompts[i].question; 
+        var testy = answers1[i]; 
+        boxBuilder.innerText = testy;
+        boxBuilder.setAttribute("data-question-id",)
+        buttonBox.appendChild(boxBuilder);
+        console.log("ttest");
+    }
+        // prompts[i].answers[1];
+        // prompts[i].answers[2];
+        // prompts[i].answers[3];
+};
+
 
 startButton.addEventListener("click", taskHandler);
 
