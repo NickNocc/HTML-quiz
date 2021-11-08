@@ -19,6 +19,8 @@ var quizQ = document.getElementById("headerQs");
 var initialText = document.getElementById('starterText');
 var submitAnswers = document.getElementById('startQuiz');
 var startButton = document.querySelector(".btn");
+var timer = 60;
+var timerDisplay = document.getElementById('countdown');
 
 // Need a taskhandler that looks at what is clicked and gives you feedback based on what you click (right or wrong answers)
 
@@ -29,7 +31,7 @@ var startButton = document.querySelector(".btn");
     alert("button clicked");
      var clickCheck = event.target;
      if (clickCheck == startButton) {
-          console.log("clicky");
+          quizStarter();
      }
     //  if (target.matches(".btn")) {
     //      if (target.dataset.state = "answer") {
@@ -43,6 +45,18 @@ var startButton = document.querySelector(".btn");
     //          // return false
 };
 
+var quizStarter = function() {
+    var timeInterval = setInterval(function(){
+        timerDisplay.textContent = timer + " Seconds remaining";
+
+        if (timer == 0) {
+            timerDisplay.textContent = "0";
+            clearInterval(timeInterval);
+            // Send to score input page
+        }
+        timer--;
+    }, 1000)
+}
 
 startButton.addEventListener("click", taskHandler);
 
