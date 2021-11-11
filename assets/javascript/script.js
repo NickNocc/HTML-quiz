@@ -4,9 +4,36 @@ var prompts = [
         question: "Whats 2+2?",
         correctAnswer: "4"
     },
+    {
+        question: "Whats 3+3",
+        correctAnswer: "6"
+    },
+    {
+        question: "Whats 4+4?",
+        correctAnswer: "8"
+    },
 ];
 
-var answers1 = [1,2,3,4];
+var answers1 = [
+    {
+        ans1: 1,
+        ans2: 2,
+        ans3: 3,
+        ans4: 4
+    },
+    {
+        ans1: 1,
+        ans2: 6,
+        ans3: 3,
+        ans4: 4
+    },
+    {
+        ans1: 1,
+        ans2: 2,
+        ans3: 8,
+        ans4: 4
+    }
+];
 
 var highScores = [];
 
@@ -14,18 +41,19 @@ var buttonBox = document.getElementById("buttonBoxId");
 var quizQ = document.getElementById("headerQs");
 var initialText = document.getElementById('starterText');
 var submitAnswers = document.getElementById('startQuiz');
-var startButton = document.querySelector(".btn");
+var anyButton = document.querySelector(".btn");
 var timer = 60;
 var timerDisplay = document.getElementById('countdown');
+var startButton = document.getElementById("startQuiz");
+
 // Need a taskhandler that looks at what is clicked and gives you feedback based on what you click (right or wrong answers)
 
 
 // Taskhandler function
  var taskHandler = function(event) {
-     event.preventDefault;
-    alert("button clicked");
-     var clickCheck = event.target;
-     if (clickCheck == startButton) {
+    event.preventDefault;
+    var clickCheck = event.target;
+    if (clickCheck == startButton) {
           quizStarter();
      }
     //  if (target.matches(".btn")) {
@@ -56,24 +84,34 @@ var quizStarter = function() {
 
 var questionHandler = function() {
 
-        var boxBuilder = document.createElement("button");       
-        
-        boxBuilder.className = "btn";
+        var boxBuilder1 = document.createElement("button");       
+        var boxBuilder2 = document.createElement("button");  
+        var boxBuilder3 = document.createElement("button");  
+
+        boxBuilder1.className = "btn";
+        boxBuilder2.className = "btn";
+        boxBuilder3.className = "btn";
+        anyButton.className = "btn";
+
+        buttonBox.appendChild(boxBuilder1);
+        buttonBox.appendChild(boxBuilder2);
+        buttonBox.appendChild(boxBuilder3);
+        buttonBox.appendChild(anyButton);
+
     for(var i = 0; i < prompts.length; i++) {
-        quizQ.innerText = prompts[i].question; 
-        var testy = answers1[i]; 
-        boxBuilder.innerText = testy;
-        boxBuilder.setAttribute("data-question-id",)
-        buttonBox.appendChild(boxBuilder);
-        console.log("ttest");
+        quizQ.innerText = prompts[i].question;  
+        boxBuilder1.innerText = answers1[i].ans1;
+        boxBuilder2.innerText = answers1[i].ans2;
+        boxBuilder3.innerText = answers1[i].ans3;
+        anyButton.innerText = answers1[i].ans4;
+
+        if 
     }
-        // prompts[i].answers[1];
-        // prompts[i].answers[2];
-        // prompts[i].answers[3];
+
 };
 
 
-startButton.addEventListener("click", taskHandler);
+anyButton.addEventListener("click", taskHandler);
 
 // event.target
 // if matches start button
