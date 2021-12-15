@@ -2,70 +2,54 @@
 var prompts = [
     {
         question: "Whats 2+2?",
-        correctAnswer: "4"
+        answers: {
+            1: 1,
+            2: 2,
+            3: 3,
+            4: 4,
+        },
+        correctAnswer: 4
     },
     {
-        question: "Whats 3+3",
-        correctAnswer: "6"
+        question: "Whats 3+3?",
+        answers: {
+            1: 4,
+            2: 5,
+            3: 6,
+            4: 7,
+        },
+        correctAnswer: 6
     },
     {
         question: "Whats 4+4?",
-        correctAnswer: "8"
+        answers: {
+            1: 7,
+            2: 8,
+            3: 9,
+            4: 10,
+        },
+        correctAnswer: 8
     },
-];
-
-var answers1 = [
-    {
-        ans1: 1,
-        ans2: 2,
-        ans3: 3,
-        ans4: 4
-    },
-    {
-        ans1: 1,
-        ans2: 6,
-        ans3: 3,
-        ans4: 4
-    },
-    {
-        ans1: 1,
-        ans2: 2,
-        ans3: 8,
-        ans4: 4
-    }
 ];
 
 var highScores = [];
-
-var buttonBox = document.getElementById("buttonBoxId");
+var $buttonBox = $("#buttonBoxId");
 var quizQ = document.getElementById("headerQs");
 var initialText = document.getElementById('starterText');
 var submitAnswers = document.getElementById('startQuiz');
 var anyButton = document.querySelector(".btn");
-var timer = 60;
+var timer = 10;
 var timerDisplay = document.getElementById('countdown');
 var startButton = document.getElementById("startQuiz");
+let questionTracker = 0;
 
 // Need a taskhandler that looks at what is clicked and gives you feedback based on what you click (right or wrong answers)
 
 
 // Taskhandler function
- var taskHandler = function(event) {
-    event.preventDefault;
-    var clickCheck = event.target;
-    if (clickCheck == startButton) {
-          quizStarter();
-     }
-    //  if (target.matches(".btn")) {
-    //      if (target.dataset.state = "answer") {
-    //      // Add Feedback to bottom of question
-    //      // alert to move on
-    //      // return true
-    //      }
-    //      else {
-    //          // Feedback telling you youre wrong
-    //          // alert to move on
-    //          // return false
+ var taskHandler = function() {
+    // add to event listener checking for other type of button, then checks the answer for the count we're on
+
 };
 
 var quizStarter = function() {
@@ -75,43 +59,69 @@ var quizStarter = function() {
         if (timer == 0) {
             timerDisplay.textContent = "0";
             clearInterval(timeInterval);
-            // Send to score input page
+            console.log("damn");
         }
         timer--;
     }, 1000);
-    questionHandler();
 };
 
 var questionHandler = function() {
-
-        var boxBuilder1 = document.createElement("button");       
-        var boxBuilder2 = document.createElement("button");  
-        var boxBuilder3 = document.createElement("button");  
-
-        boxBuilder1.className = "btn";
-        boxBuilder2.className = "btn";
-        boxBuilder3.className = "btn";
-        anyButton.className = "btn";
-
-        buttonBox.appendChild(boxBuilder1);
-        buttonBox.appendChild(boxBuilder2);
-        buttonBox.appendChild(boxBuilder3);
-        buttonBox.appendChild(anyButton);
-
-    for(var i = 0; i < prompts.length; i++) {
-        quizQ.innerText = prompts[i].question;  
-        boxBuilder1.innerText = answers1[i].ans1;
-        boxBuilder2.innerText = answers1[i].ans2;
-        boxBuilder3.innerText = answers1[i].ans3;
-        anyButton.innerText = answers1[i].ans4;
-
-        if 
-    }
-
+    // once called, hides other info on the page and loads questions
+    if (questionTracker < 3){
+        console.log(prompts[questionTracker].answers);
+        let promptAnswers = prompts[questionTracker].answers;
+        console.log(promptAnswers);
+        let ans1 = promptAnswers[1]
+        let ans2 = promptAnswers[2]
+        let ans3 = promptAnswers[3]
+        let ans4 = promptAnswers[4]    
+        quizQ.innerHTML = prompts[questionTracker].question;
+        $("#startQuiz").remove();
+        $(".btn2").remove();
+        initialText.remove();
+        $buttonBox.append(
+            "<button id=quizButton class=btn2 value="+ ans1 + "><p>"
+            + ans1 +
+            "</p></button> </br><button id=quizButton class=btn2 value="+ ans2 + "><p>"
+            + ans2 +
+            "</p></button> </br><button id=quizButton class=btn2 value="+ ans3 + "><p>"
+            + ans3 +
+            "</p></button> </br><button id=quizButton class=btn2 value="+ ans4 + "><p>"
+            + ans4 +
+            "</p></button> </br>");
+        } else {
+            console.log("end the test you fool");
+        };
+    // count that indicates what question we're on, iterates after putting the correct info on the page
+    // Grab the question with our increment[i], then append divs for the potential answers
 };
 
 
-anyButton.addEventListener("click", taskHandler);
+$(".btn").on("click", function(e) {
+    console.log(e.target);
+    console.log(e.target.value);
+    if (e.target.classList.contains('startQuiz')) {
+        questionHandler();
+        quizStarter();
+    }
+});
+
+$(document).on("click", ".btn2", function(e) {
+    let clickedButton = e.target
+    let clickedValue = clickedButton.value;
+    console.log("clicked Button value: " + clickedValue);
+    console.log("correct Answer: " + prompts[questionTracker].correctAnswer);
+    if (clickedButton.value == prompts[questionTracker].correctAnswer) {
+        console.log("You dun it!");
+        questionTracker++;
+        questionHandler();
+    } else {
+        console.log("frick dude try again");
+        questionTracker++;
+        questionHandler();
+    }
+});
+
 
 // event.target
 // if matches start button
@@ -139,13 +149,13 @@ anyButton.addEventListener("click", taskHandler);
 //     answerSet.setAttribute("data-state", "correct");
 //     trickSet.setAttribute("data-state", "incorrect");
 //     trickSet.innerHTML = ((trickAnswers[i].choice1));
-//     buttonBox.appendChild(trickAnswers[i].choice1);
+//     $buttonBox.appendChild(trickAnswers[i].choice1);
 //     trickSet.innerHTML = ((trickAnswers[i].choice2));
-//     buttonBox.appendChild(trickAnswers[i].choice2);
+//     $buttonBox.appendChild(trickAnswers[i].choice2);
 //     trickSet.innerHTML = ((trickAnswers[i].choice3));
-//     buttonBox.appendChild(trickAnswers[i].choice3);
+//     $buttonBox.appendChild(trickAnswers[i].choice3);
 //     answerSet.innerHTML = prompts[i].answer;
-//     buttonBox.appendChild(answerSet);
+//     $buttonBox.appendChild(answerSet);
 //     // gets trickAnswers and appends it to the button box
 // };
 // For loop that checks against prompts.length, generates question and answers for each pass
