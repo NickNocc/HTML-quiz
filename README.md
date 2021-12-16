@@ -6,3 +6,4 @@ This website prompts the user with a quiz, gives them a score, and shows all loc
 
 [Screenshot](assets/images/quiz.png)
 
+[Live Server](https://nicknocc.github.io/HTML-quiz/)
