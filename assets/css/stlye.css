@@ -8,6 +8,14 @@ h1 {
     font-size: 4vw;
 }
 
+p {
+    text-align: center;
+}
+
+label {
+    font-size: xx-large;
+}
+
 .buttonBox {
     display: flex;
     justify-content: center;
@@ -31,4 +39,8 @@ h1 {
 
 .btn:hover, .btn2:hover {
     background: var(--secondary-color);
+}
+
+.endText {
+    font-size: 2vw;
 }

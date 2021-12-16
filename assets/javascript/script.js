@@ -34,23 +34,40 @@ var prompts = [
 
 var highScores = [];
 var $buttonBox = $("#buttonBoxId");
+var $secondaryInput = $(".secondaryInput")
 var quizQ = document.getElementById("headerQs");
 var initialText = document.getElementById('starterText');
 var submitAnswers = document.getElementById('startQuiz');
 var anyButton = document.querySelector(".btn");
-var timer = 10;
+var timer = 60;
 var timerDisplay = document.getElementById('countdown');
 var startButton = document.getElementById("startQuiz");
 let questionTracker = 0;
+var timerStop = false;
 
 // Need a taskhandler that looks at what is clicked and gives you feedback based on what you click (right or wrong answers)
 
 
 // Taskhandler function
- var taskHandler = function() {
-    // add to event listener checking for other type of button, then checks the answer for the count we're on
-
+ var quizOver = function() {
+    timerStop = true;
+    $(".btn2").remove();
+    quizQ.innerHTML = "<h1 id=headerQs>All Done</h1> <p class=endText>Your final score is: "
+     + timer +
+    "</p></br><label for=hsSub>Enter your name: </label> <input type=text id=hsSub name=name> <button class=btn>Submit</button>";
 };
+
+var highScores = function() {
+    let loadedScores = JSON.parse(localStorage.getItem("highScores"));
+    quizQ.innerHTML = "<h1 id=headerQs>High Scores</h1>";
+    $buttonBox.append("<ol id=highScoreList></ol>")
+    console.log("loaded scores: " + loadedScores);
+    loadedScores.forEach(element => {
+        $("#highScoreList").append("<li>" + element + "</li>")
+    });
+    $secondaryInput.append("<button>Go back</button> <button class=btn id=clearIt>Clear highscores</button>");
+    $("#clearIt").addClass("clearIt");
+}
 
 var quizStarter = function() {
     var timeInterval = setInterval(function(){
@@ -59,7 +76,9 @@ var quizStarter = function() {
         if (timer == 0) {
             timerDisplay.textContent = "0";
             clearInterval(timeInterval);
-            console.log("damn");
+            quizOver();
+        } else if (timerStop){
+            clearInterval(timeInterval);
         }
         timer--;
     }, 1000);
@@ -90,19 +109,36 @@ var questionHandler = function() {
             + ans4 +
             "</p></button> </br>");
         } else {
-            console.log("end the test you fool");
+            quizOver();
         };
     // count that indicates what question we're on, iterates after putting the correct info on the page
     // Grab the question with our increment[i], then append divs for the potential answers
 };
 
 
-$(".btn").on("click", function(e) {
-    console.log(e.target);
-    console.log(e.target.value);
+$(document).on("click", ".btn", function(e) {
+    console.log(e.target.classList);
     if (e.target.classList.contains('startQuiz')) {
         questionHandler();
         quizStarter();
+    } else if (e.target.classList.contains('clearIt')) {
+        localStorage.clear();
+    } else {
+        let highName = $("#hsSub").val();
+        var highScoreHolder = [];
+        highScoreHolder.push(highName + " " + timer);
+        let addToLocal = JSON.parse(localStorage.getItem("highScores"));
+        console.log(addToLocal);
+        if (addToLocal) {    
+            addToLocal.forEach(element => {
+                highScoreHolder.push(element);
+            })
+        } else if (!addToLocal) {
+            addToLocal = [];
+        }
+        localStorage.setItem("highScores", JSON.stringify(highScoreHolder));
+        // go to high scores
+        highScores();
     }
 });
 
@@ -118,60 +154,7 @@ $(document).on("click", ".btn2", function(e) {
     } else {
         console.log("frick dude try again");
         questionTracker++;
+        timer = timer - 10;
         questionHandler();
     }
 });
-
-
-// event.target
-// if matches start button
-// call the code that starts the quiz
-// if matches correct answer (bool)
-// Put the text at the bottom that says correct and add the border
-// Call the function to go to the next question
-// if it doesnt match the right answer
-// Put text that says wrong and a border
-// function that injects html into the dom
-// var questionHandler = function() {
-//     for (var i = 0; i < prompts.length; i++) {
-//         quizQ.innerHTML = prompts[i].question;
-//         // function that makes our boxes
-//         boxGenerator(i);
-//         // if statement that checks if task handler returns true, if 
-        
-//         }
-// };
-// var boxGenerator = function(i) {
-//     // gets prompt answer and appends it to the button box
-//     var answerSet = document.createElement("div");
-//     var trickSet = document.createElement("div");
-//     console.log("frick");
-//     answerSet.setAttribute("data-state", "correct");
-//     trickSet.setAttribute("data-state", "incorrect");
-//     trickSet.innerHTML = ((trickAnswers[i].choice1));
-//     $buttonBox.appendChild(trickAnswers[i].choice1);
-//     trickSet.innerHTML = ((trickAnswers[i].choice2));
-//     $buttonBox.appendChild(trickAnswers[i].choice2);
-//     trickSet.innerHTML = ((trickAnswers[i].choice3));
-//     $buttonBox.appendChild(trickAnswers[i].choice3);
-//     answerSet.innerHTML = prompts[i].answer;
-//     $buttonBox.appendChild(answerSet);
-//     // gets trickAnswers and appends it to the button box
-// };
-// For loop that checks against prompts.length, generates question and answers for each pass
-// Section that changes the h1 element into the question
-// adds boxes with potential answers
-// Pop up box that proceedes you to the next question
-// Also needs to inject a div for the possible answers to go into can use this later for highscore entry
-// Section that saves highscores to local memory
-// Function for saving a task
-// localStorage.setItem("highScores", JSON.stingify(variable))
-// Function that loads highscores
-// Timer that counts down from 1 minute for the timed portion of the quiz
-// Countdown function from 1 minute
-// var containing set time
-// setInterval function
-// Change text content of timer to the amount of time left
-// Remember to clearInterval at some point
-// time-- at the end of the function
-// document.addEventListener("click", taskHandler());
