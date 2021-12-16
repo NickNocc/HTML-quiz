@@ -12,6 +12,13 @@ p {
     text-align: center;
 }
 
+span {
+    width: fit-content; 
+    height: 1px; 
+    border-bottom: 2px solid gray; 
+    content: ""
+}
+
 label {
     font-size: xx-large;
 }
@@ -19,10 +26,27 @@ label {
 .buttonBox {
     display: flex;
     justify-content: center;
+    flex-wrap: wrap;
+    flex-direction: column;
+};
+
+.listy {
+    flex-direction: unset;
 }
 
-.highscore {
-    /* make it purple i guess */
+.highScorePage {
+    background:none;
+    border:none;
+    margin:0;
+    padding:0;
+    cursor: pointer;
+}
+
+
+.secondary {
+    color: gray;
+    font-size: xxx-large;
+    border-bottom: gray;
 }
 
 .answer-list {
