@@ -128,7 +128,6 @@ $(document).on("click", ".btn", function(e) {
         var highScoreHolder = [];
         highScoreHolder.push(highName + " " + timer);
         let addToLocal = JSON.parse(localStorage.getItem("highScores"));
-        console.log(addToLocal);
         if (addToLocal) {    
             addToLocal.forEach(element => {
                 highScoreHolder.push(element);
