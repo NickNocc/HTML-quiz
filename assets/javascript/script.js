@@ -73,7 +73,7 @@ var timerStop = false;
     // stops the timer so your score doesnt change after the quiz
     timerStop = true;
     // Setting the page up for score submission
-    quizQ.innerHTML = "<h1 id=headerQs>All Done</h1> <p class=endText>Your final score is: "
+    quizQ.innerHTML = "<h1 id=headerQs>Quiz Finished!</h1> <p class=endText>Your final score is: "
      + timer +
     "</p></br><label for=hsSub>Enter your name: </label> <input type=text id=hsSub name=name> <button class=btn>Submit</button>";
 };
@@ -207,7 +207,7 @@ $(document).on("click", ".btn2", function(e) {
         $(".secondary").remove("p", "span");
                 // Now questionhandler will load the next question
 
-        $secondaryInput.append("<p class=secondary><span>Wrong!</span></p>")
+        $secondaryInput.append("<p class=secondary><span>Incorrect!</span></p>")
         questionHandler();
     }
 });
